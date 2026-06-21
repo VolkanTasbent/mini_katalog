@@ -43,8 +43,8 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     ActionChip(
                       avatar: const Icon(Icons.shopping_cart, size: 18),
-                      label: Text('Sepeti Gör (${cart.cartCount})'),
-                      onPressed: () => CartScope.showCart(context),
+                      label: Text('Sepetim (${cart.cartCount})'),
+                      onPressed: () => CartScope.openCart(context),
                     ),
                   ],
                   const SizedBox(height: 32),

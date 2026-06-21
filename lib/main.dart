@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'models/cart_item.dart';
 import 'models/product.dart';
+import 'screens/cart_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/product_detail_screen.dart';
 import 'screens/product_list_screen.dart';
@@ -9,7 +11,7 @@ import 'widgets/cart_scope.dart';
 const Product _sampleDetailProduct = Product(
   id: 1,
   name: 'iPhone 15 Pro',
-  tagline: 'Titanium. So strong. So Pro.',
+  tagline: 'Titanium. So strong. So light. So Pro.',
   description:
       'The iPhone 15 Pro is the first iPhone to feature an aerospace-grade titanium design, making it lighter and more durable than ever before. It is powered by the groundbreaking A17 Pro chip.',
   price: r'$999',
@@ -34,13 +36,25 @@ class MiniKatalogApp extends StatefulWidget {
 }
 
 class _MiniKatalogAppState extends State<MiniKatalogApp> {
-  int _cartCount = 0;
-  final List<String> _cartItems = [];
+  final List<CartItem> _cartItems = [];
 
-  void _addToCart(String productName) {
+  int get _cartCount => _cartItems.length;
+
+  void _addToCart(Product product) {
     setState(() {
-      _cartCount++;
-      _cartItems.add(productName);
+      _cartItems.add(CartItem(product: product));
+    });
+  }
+
+  void _removeFromCart(int index) {
+    setState(() {
+      _cartItems.removeAt(index);
+    });
+  }
+
+  void _clearCart() {
+    setState(() {
+      _cartItems.clear();
     });
   }
 
@@ -50,6 +64,8 @@ class _MiniKatalogAppState extends State<MiniKatalogApp> {
       cartCount: _cartCount,
       cartItems: List.unmodifiable(_cartItems),
       addToCart: _addToCart,
+      removeFromCart: _removeFromCart,
+      clearCart: _clearCart,
       child: MaterialApp(
         title: 'Mini Katalog',
         debugShowCheckedModeBanner: false,
@@ -70,6 +86,7 @@ class _MiniKatalogAppState extends State<MiniKatalogApp> {
         routes: {
           '/': (context) => const HomeScreen(),
           '/products': (context) => const ProductListScreen(),
+          '/cart': (context) => const CartScreen(),
         },
         onGenerateRoute: (settings) {
           if (settings.name == '/detail') {

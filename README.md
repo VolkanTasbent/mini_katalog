@@ -26,8 +26,10 @@ Flutter eğitimi kapsamında geliştirilen basit bir ürün katalog uygulamasıd
 lib/
 ├── main.dart
 ├── models/
+│   ├── cart_item.dart
 │   └── product.dart
 ├── screens/
+│   ├── cart_screen.dart
 │   ├── home_screen.dart
 │   ├── product_list_screen.dart
 │   └── product_detail_screen.dart

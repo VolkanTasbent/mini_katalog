@@ -133,7 +133,7 @@ class ProductDetailScreen extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        cart.addProductToCart(context, product.name);
+                        cart.addProductToCart(context, product);
                       },
                       icon: const Icon(Icons.add_shopping_cart),
                       label: const Text('Sepete Ekle'),

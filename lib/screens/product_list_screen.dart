@@ -142,7 +142,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         );
                       },
                       onAddToCart: () {
-                        cart.addProductToCart(context, product.name);
+                        cart.addProductToCart(context, product);
                       },
                     );
                   },

@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 
+import '../models/cart_item.dart';
+import '../models/product.dart';
+
 class CartScope extends InheritedWidget {
   final int cartCount;
-  final List<String> cartItems;
-  final void Function(String productName) addToCart;
+  final List<CartItem> cartItems;
+  final void Function(Product product) addToCart;
+  final void Function(int index) removeFromCart;
+  final VoidCallback clearCart;
 
   const CartScope({
     super.key,
     required this.cartCount,
     required this.cartItems,
     required this.addToCart,
+    required this.removeFromCart,
+    required this.clearCart,
     required super.child,
   });
 
@@ -19,79 +26,22 @@ class CartScope extends InheritedWidget {
     return scope!;
   }
 
-  void addProductToCart(BuildContext context, String productName) {
-    addToCart(productName);
+  void addProductToCart(BuildContext context, Product product) {
+    addToCart(product);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('$productName sepete eklendi.'),
+        content: Text('${product.name} sepete eklendi.'),
         duration: const Duration(seconds: 2),
         action: SnackBarAction(
           label: 'Sepeti Gör',
-          onPressed: () => showCart(context),
+          onPressed: () => openCart(context),
         ),
       ),
     );
   }
 
-  static void showCart(BuildContext context) {
-    final cart = of(context);
-
-    showModalBottomSheet<void>(
-      context: context,
-      showDragHandle: true,
-      builder: (sheetContext) {
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Sepetim',
-                style: Theme.of(sheetContext).textTheme.titleLarge,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              if (cart.cartItems.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Text(
-                    'Sepetiniz boş.\nÜrün eklemek için "Sepete Ekle" butonunu kullanın.',
-                    textAlign: TextAlign.center,
-                  ),
-                )
-              else
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxHeight: 240),
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: cart.cartItems.length,
-                    separatorBuilder: (_, __) => const Divider(height: 1),
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        leading: const Icon(Icons.shopping_bag_outlined),
-                        title: Text(cart.cartItems[index]),
-                      );
-                    },
-                  ),
-                ),
-              const SizedBox(height: 16),
-              Text(
-                'Toplam: ${cart.cartCount} ürün',
-                style: Theme.of(sheetContext).textTheme.titleMedium,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => Navigator.pop(sheetContext),
-                child: const Text('Kapat'),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+  static void openCart(BuildContext context) {
+    Navigator.pushNamed(context, '/cart');
   }
 
   @override
@@ -115,8 +65,8 @@ class CartIconButton extends StatelessWidget {
         alignment: Alignment.topRight,
         children: [
           IconButton(
-            tooltip: 'Sepeti Aç',
-            onPressed: () => CartScope.showCart(context),
+            tooltip: 'Sepetim',
+            onPressed: () => CartScope.openCart(context),
             icon: const Icon(Icons.shopping_cart),
           ),
           if (cart.cartCount > 0)
