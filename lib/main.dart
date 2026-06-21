@@ -35,15 +35,20 @@ class MiniKatalogApp extends StatefulWidget {
 
 class _MiniKatalogAppState extends State<MiniKatalogApp> {
   int _cartCount = 0;
+  final List<String> _cartItems = [];
 
-  void _addToCart() {
-    setState(() => _cartCount++);
+  void _addToCart(String productName) {
+    setState(() {
+      _cartCount++;
+      _cartItems.add(productName);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return CartScope(
       cartCount: _cartCount,
+      cartItems: List.unmodifiable(_cartItems),
       addToCart: _addToCart,
       child: MaterialApp(
         title: 'Mini Katalog',

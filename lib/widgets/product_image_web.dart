@@ -49,7 +49,8 @@ class ProductImage extends StatelessWidget {
         ..style.border = 'none'
         ..style.width = '100%'
         ..style.height = '100%'
-        ..style.objectFit = _objectFit;
+        ..style.objectFit = _objectFit
+        ..style.pointerEvents = 'none';
 
       return image;
     });

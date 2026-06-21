@@ -41,9 +41,10 @@ class HomeScreen extends StatelessWidget {
                   ),
                   if (cart.cartCount > 0) ...[
                     const SizedBox(height: 16),
-                    Chip(
+                    ActionChip(
                       avatar: const Icon(Icons.shopping_cart, size: 18),
-                      label: Text('Sepetinizde ${cart.cartCount} ürün var'),
+                      label: Text('Sepeti Gör (${cart.cartCount})'),
+                      onPressed: () => CartScope.showCart(context),
                     ),
                   ],
                   const SizedBox(height: 32),
