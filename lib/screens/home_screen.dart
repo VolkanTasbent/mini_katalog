@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/cart_scope.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cart = CartScope.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mini Katalog'),
         centerTitle: true,
+        actions: const [CartIconButton()],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -34,6 +39,13 @@ class HomeScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
+                  if (cart.cartCount > 0) ...[
+                    const SizedBox(height: 16),
+                    Chip(
+                      avatar: const Icon(Icons.shopping_cart, size: 18),
+                      label: Text('Sepetinizde ${cart.cartCount} ürün var'),
+                    ),
+                  ],
                   const SizedBox(height: 32),
                   SizedBox(
                     width: double.infinity,

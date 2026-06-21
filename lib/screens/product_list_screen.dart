@@ -46,49 +46,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ürün Listesi'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Stack(
-              alignment: Alignment.topRight,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Sepetinizde ${cart.cartCount} ürün var.',
-                        ),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.shopping_cart),
-                ),
-                if (cart.cartCount > 0)
-                  Positioned(
-                    right: 4,
-                    top: 4,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text(
-                        '${cart.cartCount}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        ],
+        title: Column(
+          children: [
+            const Text('Ürün Listesi'),
+            if (cart.cartCount > 0)
+              Text(
+                'Sepet: ${cart.cartCount} ürün',
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+          ],
+        ),
+        centerTitle: true,
+        actions: const [CartIconButton()],
       ),
       body: Column(
         children: [
@@ -158,7 +127,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
-                    childAspectRatio: 0.72,
+                    childAspectRatio: 0.62,
                   ),
                   itemCount: products.length,
                   itemBuilder: (context, index) {
@@ -171,6 +140,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           '/detail',
                           arguments: product,
                         );
+                      },
+                      onAddToCart: () {
+                        cart.addProductToCart(context, product.name);
                       },
                     );
                   },
