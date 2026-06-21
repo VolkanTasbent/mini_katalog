@@ -79,11 +79,13 @@ lib/
 
 ## Ekran Görüntüleri
 
-Aşağıdaki dosyaları `screenshots/` klasörüne ekleyin:
+| Ana sayfa | Ürün listesi |
+|---|---|
+| ![Ana sayfa](screenshots/home.png) | ![Ürün listesi](screenshots/products.png) |
 
-- `screenshots/home.png` — Ana sayfa
-- `screenshots/products.png` — Ürün listesi
-- `screenshots/detail.png` — Ürün detayı
+| Ürün detayı | Sepet |
+|---|---|
+| ![Ürün detayı](screenshots/detail.png) | ![Sepet](screenshots/cart.png) |
 
 ## Veri Kaynağı
 
